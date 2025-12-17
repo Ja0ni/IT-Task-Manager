@@ -5,7 +5,7 @@ from task_manager import settings
 
 
 class Worker(AbstractUser):
-    position = models.ForeignKey("Position", on_delete=models.CASCADE, null=True, blank=True, related_name="workers")
+    position = models.ForeignKey("Position", on_delete=models.CASCADE, related_name="workers")
     team = models.ForeignKey("Team", on_delete=models.SET_NULL, null=True, blank=True, related_name="members")
 
     class Meta:
