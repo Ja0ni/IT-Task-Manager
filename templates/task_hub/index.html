@@ -1,15 +1,23 @@
 {% extends "base.html" %}
+
 {% block title %}
-  <title>Home page</title>
+  <title>Task Hub | Task management</title>
 {% endblock %}
+
 {% block content %}
-  <h1>Task Hub</h1>
-  <p>Welcome to the Greatest Library!</p>
-  <h3>Library content:</h3>
-  <ul>
-    <li>Num books: {{ num_books }}</li>
-    <li>Num authors: {{ num_authors }}</li>
-    <li>Num literary formats: {{ num_literary_formats }}</li>
-  </ul>
-  <p>You have visited this page {{ num_visits }} time{{ num_visits|pluralize }}.</p>
+  <div class="text-center">
+    <h2 class="mb-4">Welcome to the Task Hub!</h2>
+    <p class="lead mb-4">
+      Task Hub is a space for development teams to efficiently create, assign and monitor tasks.
+    </p>
+    <p class="text-muted mb-5">
+      Select one of the options in the navigation to view tasks or team members.
+    </p>
+    <img
+        src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png"
+        alt="Teamwork illustration"
+        class="d-block mx-auto"
+        style="width: 256px; height: 256px"
+    >
+  </div>
 {% endblock %}
