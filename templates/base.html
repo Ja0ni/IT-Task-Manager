@@ -12,24 +12,34 @@
         integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
   <link rel="stylesheet" href="{% static 'css/styles.css' %}">
 </head>
-<body>
-<div class="container-fluid">
-  <div class="row">
-    <div class="col-sm-3">
-      {% block sidebar %}
-        {% include "includes/sidebar.html" %}
-      {% endblock %}
+
+<body class="bg-light">
+  <header class="bg-primary text-white py-3 shadow-sm">
+    <div class="container d-flex justify-content-between align-items-center">
+      <nav class="d-flex align-items-center w-100">
+        {% block top_nav %}
+          {% include 'includes/top_nav.html' %}
+        {% endblock %}
+      </nav>
     </div>
-    <div class="col-sm-9">
-      {% block content %}
-      {% endblock %}
-      {% block pagination %}
-        {% include "includes/pagination.html" %}
-      {% endblock %}
-    </div>
+  </header>
+
+  <div class="container py-5">
+    {% block content %}
+    {% endblock %}
   </div>
-</div>
+
+  <div class="container">
+    {% block pagination %}
+      {% include 'includes/pagination.html' %}
+    {% endblock %}
+  </div>
+
+  <footer class="bg-light text-muted text-center py-4 mt-5 border-top">
+    {% block footer %}
+      {% include 'includes/footer.html' %}
+    {% endblock %}
+  </footer>
 
 </body>
-
 </html>

@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+
+{% block title %}
+  <title>Workers | Task Hub</title>
+{% endblock %}
+
+{% block content %}
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h1 class="h3 mb-0">Workers</h1>
+    <a href="{% url 'task_hub:worker-create' %}" class="btn btn-primary">
+      ➕ Add new Worker
+    </a>
+  </div>
+
+  <div class="card shadow-sm">
+    <div class="card-body p-0">
+      <table class="table table-hover mb-0">
+        <thead class="thead-light">
+          <tr>
+            <th>Username</th>
+            <th>First name</th>
+            <th>Last name</th>
+            <th>Position</th>
+            <th>Team</th>
+            <th class="text-right">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+        {% for worker in workers %}
+          <tr>
+            <td>{{ worker.username }}</td>
+            <td>{{ worker.first_name }}</td>
+            <td>{{ worker.last_name }}</td>
+            <td>{{ worker.position|default:"—" }}</td>
+            <td>{{ worker.team|default:"—" }}</td>
+            <td class="text-right">
+              <a href="{% url 'task_hub:worker-detail' worker.pk %}"
+                 class="btn btn-sm btn-outline-info">
+                ℹ
+              </a>
+              <a href="{% url 'task_hub:worker-update' worker.pk %}"
+                 class="btn btn-sm btn-outline-warning">
+                ✏️
+              </a>
+              <a href="{% url 'task_hub:worker-delete' worker.pk %}"
+                 class="btn btn-sm btn-outline-danger">
+                🗑
+              </a>
+            </td>
+          </tr>
+        {% empty %}
+          <tr>
+            <td colspan="6" class="text-center text-muted py-4">
+              Employee not found
+            </td>
+          </tr>
+        {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+{% endblock %}

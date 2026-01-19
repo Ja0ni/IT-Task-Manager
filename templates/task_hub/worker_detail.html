@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block title %}
+  <title>{{ worker.username }} | TaskHub</title>
+{% endblock %}
+
+{% block content %}
+<div class="card shadow-sm p-4">
+    <h3>{{ worker.username }}</h3>
+    <p><strong>Full Name:</strong> {{ worker.first_name }} {{ worker.last_name }}</p>
+    <p><strong>Email:</strong> {{ worker.email }}</p>
+    <p><strong>Position:</strong> {{ worker.position }}</p>
+    <p><strong>Team:</strong> {{ worker.team }}</p>
+
+    <div class="mt-4">
+        <a href="{% url 'task_hub:worker-update' worker.pk %}" class="btn btn-warning">Edit</a>
+        <a href="{% url 'task_hub:worker-delete' worker.pk %}" class="btn btn-danger">Delete</a>
+        <a href="{% url 'task_hub:worker-list' %}" class="btn btn-secondary">Back to List</a>
+    </div>
+</div>
+{% endblock %}

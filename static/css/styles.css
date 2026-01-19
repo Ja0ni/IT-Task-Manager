@@ -1,0 +1,12 @@
+.nav-link {
+    color: white;
+    text-decoration: none;
+    padding-left: 12px;
+    padding-right: 12px;
+}
+
+.nav-link:hover,
+.nav-link:focus {
+    color: #e2d9d9;
+    text-decoration: none;
+}
