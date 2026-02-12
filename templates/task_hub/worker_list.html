@@ -22,31 +22,23 @@
             <th>Last name</th>
             <th>Position</th>
             <th>Team</th>
-            <th class="text-right">Actions</th>
+            <th>Detail</th>
           </tr>
         </thead>
         <tbody>
-        {% for worker in workers %}
+        {% for worker in worker_list %}
           <tr>
-            <td>{{ worker.username }}</td>
-            <td>{{ worker.first_name }}</td>
-            <td>{{ worker.last_name }}</td>
-            <td>{{ worker.position|default:"—" }}</td>
-            <td>{{ worker.team|default:"—" }}</td>
-            <td class="text-right">
-              <a href="{% url 'task_hub:worker-detail' worker.pk %}"
-                 class="btn btn-sm btn-outline-info">
-                ℹ
-              </a>
-              <a href="{% url 'task_hub:worker-update' worker.pk %}"
-                 class="btn btn-sm btn-outline-warning">
-                ✏️
-              </a>
-              <a href="{% url 'task_hub:worker-delete' worker.pk %}"
-                 class="btn btn-sm btn-outline-danger">
-                🗑
-              </a>
-            </td>
+              <td>{{ worker.username }}</td>
+              <td>{{ worker.first_name }}</td>
+              <td>{{ worker.last_name }}</td>
+              <td>{{ worker.position|default:"—" }}</td>
+              <td>{{ worker.team|default:"—" }}</td>
+              <td>
+                <a href="{% url 'task_hub:worker-detail' worker.pk %}"
+                   class="btn btn-sm btn-outline-info">
+                  ℹ
+                </a>
+              </td>
           </tr>
         {% empty %}
           <tr>

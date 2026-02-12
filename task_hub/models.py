@@ -44,7 +44,7 @@ class Task(models.Model):
 
 
 class TaskType(models.Model):
-    name = models.CharField(max_length=63)
+    name = models.CharField(max_length=63, unique=True)
 
     class Meta:
         ordering = ["name"]

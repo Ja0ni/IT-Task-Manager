@@ -10,3 +10,15 @@
     color: #e2d9d9;
     text-decoration: none;
 }
+
+.table-row-link td a{
+    display: block;
+    width: 100%;
+    height: 100%;
+    color: inherit;
+    text-decoration: none;
+}
+
+.table-row-link td a:hover {
+    background-color: #f8f8f8;
+}

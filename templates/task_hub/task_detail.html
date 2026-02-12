@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+
+{% block title %}
+  <title>{{ task.name }} | Task Hub</title>
+{% endblock %}
+
+{% block content %}
+<div class="card shadow-sm">
+
+  <div class="card-body">
+
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <h2 class="card-title mb-0">{{ task.name }}</h2>
+
+      {% if task.is_complete %}
+        <span class="badge badge-success">Completed</span>
+      {% else %}
+        <span class="badge badge-warning">In progress</span>
+      {% endif %}
+    </div>
+а
+    <p class="card-text text-muted">
+      {{ task.description|default:"No description provided." }}
+    </p>
+
+    <hr>
+
+    <ul class="list-unstyled">
+      <li><strong>Priority:</strong> {{ task.get_priority_display }}</li>
+      <li><strong>Type:</strong> {{ task.task_type }}</li>
+
+      {% if task.project %}
+        <li><strong>Project:</strong> {{ task.project }}</li>
+      {% endif %}
+
+      <li>
+        <strong>Deadline:</strong>
+        {{ task.deadline|date:"d M Y H:i" }}
+      </li>
+    </ul>
+
+    <hr>
+
+    <div>
+      <strong>Assignees:</strong><br>
+      {% for user in task.assignees.all %}
+        <a  href="{% url 'task_hub:worker-detail' user.pk %}" class="badge badge-light mr-1">{{ user.username }}</a>
+      {% empty %}
+        <em>No assignees</em>
+      {% endfor %}
+    </div>
+
+    <div class="mt-4 d-flex justify-content-between">
+      <a href="{% url 'task_hub:task-list' %}" class="btn btn-outline-secondary">
+        ← Back to list
+      </a>
+
+
+      <div>
+        <a href="{% url 'task_hub:task-update' task.pk %}"
+          class="btn btn-warning">
+          ✏️ Edit
+        </a>
+
+      {% if not task.is_complete %}
+        <form method="post" action="{% url 'task_hub:task-complete' task.pk %}">
+          {% csrf_token %}
+          <button type="submit" class="btn btn-success">
+            Mark as completed
+          </button>
+         </form>
+      {% endif %}
+
+      <form method="post"
+          action="{% url 'task_hub:task-delete' task.pk %}"
+          class="d-inline">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">
+          🗑 Delete
+        </button>
+      </form>
+    </div>
+
+  </div>
+</div>
+{% endblock %}

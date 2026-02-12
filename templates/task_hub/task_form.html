@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <div class="container mt-4">
+    <h2>
+      {% if form.instance.pk %}
+        Update task
+      {% else %}
+        Create task
+      {% endif %}
+    </h2>
+
+    <form method="post" novalidate>
+      {% csrf_token %}
+
+      {% for field in form %}
+        <div class="mb-3">
+          {% if field.name == "assignees" %}
+            <label class="form-label">
+              {{ field.label }}
+            </label>
+
+            <div class="ms-2">
+              {% for checkbox in field %}
+                <div class="form-check">
+                  {{ checkbox.tag }}
+                  <label class="form-check-label">
+                    {{ checkbox.choice_label }}
+                  </label>
+                </div>
+              {% endfor %}
+            </div>
+          {% elif field.widget.input_type == "checkbox" %}
+            <div class="form-check">
+              {{ field }}
+              <label class="form-check-label" for="{{ field.id_for_label }}">
+                {{ field.label }}
+              </label>
+            </div>
+          {% else %}
+            <label class="form-label" for="{{ field.id_for_label }}">
+              {{ field.label }}
+            </label>
+            {{ field }}
+          {% endif %}
+
+          {% if field.errors %}
+            <div class="text-danger">
+              {{ field.errors }}
+            </div>
+          {% endif %}
+
+        </div>
+      {% endfor %}
+
+      <button type="submit" class="btn btn-primary">
+        Save
+      </button>
+    </form>
+  </div>
+{% endblock %}

@@ -2,7 +2,13 @@
 
 {% block content %}
   <div class="container mt-4">
-    <h2>Create worker</h2>
+    <h2>
+      {% if form.instance.pk %}
+        Update worker
+      {% else %}
+        Create worker
+      {% endif %}
+    </h2>
 
     <form method="post" novalidate>
       {% csrf_token %}
