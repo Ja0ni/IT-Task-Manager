@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block title %}
+  <title>Teams | Task Hub</title>
+{% endblock %}
+
+{% block content %}
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h1 class="h3 mb-0">Team List</h1>
+    <a href="{% url 'task_hub:team-create' %}" class="btn btn-primary">
+      ➕ Add new Team
+    </a>
+  </div>
+
+  {% if team_list %}
+    <div class="list-group shadow-sm">
+
+      {% for team in team_list %}
+        <a href="{% url 'task_hub:team-detail' team.pk %}"
+           class="list-group-item list-group-item-action mb-2 rounded text-dark text-decoration-none">
+
+          <div class="d-flex justify-content-between align-items-center">
+            <h5 class="mb-1">
+              {{ team.name }}
+            </h5>
+
+            <span class="badge badge-secondary">
+              👥 {{ team.members.count }} member{{ team.members.count|pluralize }}
+            </span>
+          </div>
+
+          <p class="mb-1 text-muted">
+            Members:
+            {% for member in team.members.all %}
+              <span class="badge badge-light">{{ member.username }}</span>
+            {% empty %}
+              <em>No members</em>
+            {% endfor %}
+          </p>
+
+          <small class="text-muted">
+            📂 Projects: {{ team.projects.count }}
+          </small>
+
+        </a>
+      {% endfor %}
+
+    </div>
+  {% else %}
+    <p class="text-muted">No teams found.</p>
+  {% endif %}
+{% endblock %}

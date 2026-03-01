@@ -6,7 +6,6 @@ from task_manager import settings
 
 class Worker(AbstractUser):
     position = models.ForeignKey("Position", on_delete=models.CASCADE, null=True, blank=True, related_name="workers")
-    team = models.ForeignKey("Team", on_delete=models.SET_NULL, null=True, blank=True, related_name="members")
 
     class Meta:
         ordering = ["username"]
@@ -32,7 +31,7 @@ class Task(models.Model):
 
     name = models.CharField(max_length=63)
     description = models.TextField(max_length=500, blank=True)
-    deadline = models.DateTimeField()
+    deadline = models.DateTimeField(null=True, blank=True)
     is_complete = models.BooleanField(default=False)
     priority = models.IntegerField(choices=CHOICES_PRIORITY, default=LOW)
     task_type = models.ForeignKey("TaskType", on_delete=models.CASCADE, related_name="tasks")
@@ -41,6 +40,9 @@ class Task(models.Model):
 
     class Meta:
         ordering = ["name"]
+
+    def __str__(self):
+        return f"{self.name} ({self.priority})"
 
 
 class TaskType(models.Model):
@@ -64,7 +66,12 @@ class Position(models.Model):
 
 
 class Team(models.Model):
-    name = models.CharField(max_length=63)
+    name = models.CharField(max_length=63, unique=True)
+    members = models.ManyToManyField(
+        Worker,
+        related_name="teams",
+        blank=True,
+    )
 
     class Meta:
         ordering = ["name"]
@@ -76,8 +83,12 @@ class Team(models.Model):
 class Project(models.Model):
     name = models.CharField(max_length=63)
     description = models.TextField(max_length=500, blank=True)
-    team = models.ForeignKey("Team", on_delete=models.CASCADE, null=True, blank=True, related_name="projects")
-    start_date = models.DateTimeField()
+    team = models.ForeignKey(
+        Team,
+        on_delete=models.CASCADE,
+        related_name="projects"
+    )
+    start_date = models.DateTimeField(null=True, blank=True)
     end_date = models.DateTimeField(null=True, blank=True)
 
     class Meta:

@@ -5,8 +5,8 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse_lazy
 from django.views import generic
 
-from task_hub.forms import WorkerCreateForm, TaskCreateForm
-from task_hub.models import Worker, Task, TaskType
+from task_hub.forms import WorkerCreateForm, TaskCreateForm, TeamCreateForm, ProjectCreateForm
+from task_hub.models import Worker, Task, TaskType, Team, Project
 
 
 @login_required
@@ -94,5 +94,58 @@ class TaskUpdateView(LoginRequiredMixin, generic.UpdateView):
 
 class TaskDeleteView(LoginRequiredMixin, generic.DeleteView):
     model = Task
-    success_url = reverse_lazy("task_hub:task-list")
     template_name = "task_hub/task_confirm_delete.html"
+    success_url = reverse_lazy("task_hub:task-list")
+
+
+class TeamCreateView(LoginRequiredMixin, generic.CreateView):
+    model = Team
+    form_class = TeamCreateForm
+    success_url = reverse_lazy("task_hub:team-list")
+
+
+
+class TeamListView(LoginRequiredMixin, generic.ListView):
+    model = Team
+    template_name = "task_hub/team_list.html"
+
+
+class TeamDetailView(LoginRequiredMixin, generic.DetailView):
+    model = Team
+    template_name = "task_hub/team_detail.html"
+
+
+class TeamUpdateView(LoginRequiredMixin, generic.UpdateView):
+    model = Team
+    form_class = TeamCreateForm
+    success_url = reverse_lazy("task_hub:team-list")
+
+
+class TeamDeleteView(LoginRequiredMixin, generic.DeleteView):
+    model = Team
+    template_name = "task_hub/team_confirm_delete.html"
+    success_url = reverse_lazy("task_hub:team-list")
+
+
+class ProjectCreateView(LoginRequiredMixin, generic.CreateView):
+    model = Project
+    form_class = ProjectCreateForm
+
+
+class ProjectListView(LoginRequiredMixin, generic.ListView):
+    model = Project
+
+
+class ProjectDetailView(LoginRequiredMixin, generic.DetailView):
+    model = Project
+
+
+class ProjectUpdateView(LoginRequiredMixin, generic.UpdateView):
+    model = Project
+    form_class = ProjectCreateForm
+    success_url = reverse_lazy("task_hub:project-list")
+
+
+class ProjectDeleteView(LoginRequiredMixin, generic.DeleteView):
+    model = Project
+    success_url = reverse_lazy("task_hub:project-list")

@@ -18,7 +18,7 @@
         <span class="badge badge-warning">In progress</span>
       {% endif %}
     </div>
-а
+
     <p class="card-text text-muted">
       {{ task.description|default:"No description provided." }}
     </p>
@@ -56,29 +56,28 @@
       </a>
 
 
-      <div>
+      <div class="d-flex align-items-center">
         <a href="{% url 'task_hub:task-update' task.pk %}"
-          class="btn btn-warning">
+          class="btn btn-warning mr-2">
           ✏️ Edit
         </a>
 
-      {% if not task.is_complete %}
-        <form method="post" action="{% url 'task_hub:task-complete' task.pk %}">
-          {% csrf_token %}
-          <button type="submit" class="btn btn-success">
-            Mark as completed
-          </button>
-         </form>
-      {% endif %}
+        {% if not task.is_complete %}
+          <form method="post"
+                action="{% url 'task_hub:task-complete' task.pk %}"
+                class="d-inline mr-2">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-success">
+              Mark as completed
+            </button>
+           </form>
+        {% endif %}
 
-      <form method="post"
-          action="{% url 'task_hub:task-delete' task.pk %}"
-          class="d-inline">
-        {% csrf_token %}
-        <button type="submit" class="btn btn-danger">
+        <a href="{% url 'task_hub:task-delete' task.pk %}"
+          class="btn btn-danger">
           🗑 Delete
-        </button>
-      </form>
+        </a>
+      </div>
     </div>
 
   </div>

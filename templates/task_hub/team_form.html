@@ -4,9 +4,9 @@
   <div class="container mt-4">
     <h2>
       {% if form.instance.pk %}
-        Update task
+        Update team
       {% else %}
-        Create task
+        Create team
       {% endif %}
     </h2>
 
@@ -16,7 +16,7 @@
       {% for field in form %}
         <div class="mb-3">
 
-          {% if field.name == "assignees" %}
+          {% if field.name == "members" %}
             <label class="form-label">
               {{ field.label }}
             </label>
@@ -30,14 +30,6 @@
                   </label>
                 </div>
               {% endfor %}
-            </div>
-
-          {% elif field.widget.input_type == "checkbox" %}
-            <div class="form-check">
-              {{ field }}
-              <label class="form-check-label" for="{{ field.id_for_label }}">
-                {{ field.label }}
-              </label>
             </div>
 
           {% else %}
