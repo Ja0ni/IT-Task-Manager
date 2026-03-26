@@ -2,7 +2,8 @@ from django.urls import path
 
 from task_hub.views import index, WorkerCreateView, WorkerListView, WorkerDetailView, WorkerUpdateView, \
     WorkerDeleteView, TaskCreateView, TaskListView, TaskDetailView, TaskCompleteView, TaskUpdateView, TaskDeleteView, \
-    TeamListView, TeamCreateView, TeamUpdateView, TeamDeleteView, TeamDetailView
+    TeamListView, TeamCreateView, TeamUpdateView, TeamDeleteView, TeamDetailView, ProjectListView, ProjectCreateView, \
+    ProjectUpdateView, ProjectDeleteView, ProjectDetailView, ProjectAddTasksView
 
 urlpatterns = [
     path("", index, name="index"),
@@ -22,6 +23,12 @@ urlpatterns = [
     path("teams/<int:pk>/update/", TeamUpdateView.as_view(), name="team-update"),
     path("teams/<int:pk>/delete/", TeamDeleteView.as_view(), name="team-delete"),
     path("teams/<int:pk>/", TeamDetailView.as_view(), name="team-detail"),
+    path("projects/", ProjectListView.as_view(), name="project-list"),
+    path("projects/create/", ProjectCreateView.as_view(), name="project-create"),
+    path("projects/<int:pk>/update/", ProjectUpdateView.as_view(), name="project-update"),
+    path("projects/<int:pk>/delete/", ProjectDeleteView.as_view(), name="project-delete"),
+    path("projects/<int:pk>/", ProjectDetailView.as_view(), name="project-detail"),
+    path("projects/<int:pk>/add-task/", ProjectAddTasksView.as_view(), name="project-add-tasks"),
 ]
 
 app_name = "task_hub"

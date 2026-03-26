@@ -13,7 +13,16 @@
     <p><strong>Full Name:</strong> {{ worker.first_name }} {{ worker.last_name }}</p>
     <p><strong>Email:</strong> {{ worker.email }}</p>
     <p><strong>Position:</strong> {{ worker.position }}</p>
-    <p><strong>Team:</strong> {{ worker.team }}</p>
+    <p><strong>Team:</strong>
+      {% if worker.team %}
+        <a href="{% url 'task_hub:team-detail' worker.team.pk %}"
+           class="badge badge-info">
+          {{ worker.team.name }}
+        </a>
+      {% else %}
+        —
+      {% endif %}
+    </p>
 
     <div class="mt-4 d-flex justify-content-between">
       <a href="{% url 'task_hub:worker-list' %}"

@@ -108,6 +108,7 @@ class TeamCreateView(LoginRequiredMixin, generic.CreateView):
 class TeamListView(LoginRequiredMixin, generic.ListView):
     model = Team
     template_name = "task_hub/team_list.html"
+    paginate_by = 5
 
 
 class TeamDetailView(LoginRequiredMixin, generic.DetailView):
@@ -130,14 +131,18 @@ class TeamDeleteView(LoginRequiredMixin, generic.DeleteView):
 class ProjectCreateView(LoginRequiredMixin, generic.CreateView):
     model = Project
     form_class = ProjectCreateForm
+    success_url = reverse_lazy("task_hub:project-list")
 
 
 class ProjectListView(LoginRequiredMixin, generic.ListView):
     model = Project
+    template_name = "task_hub/project_list.html"
+    paginate_by = 5
 
 
 class ProjectDetailView(LoginRequiredMixin, generic.DetailView):
     model = Project
+    template_name = "task_hub/project_detail.html"
 
 
 class ProjectUpdateView(LoginRequiredMixin, generic.UpdateView):
@@ -148,4 +153,29 @@ class ProjectUpdateView(LoginRequiredMixin, generic.UpdateView):
 
 class ProjectDeleteView(LoginRequiredMixin, generic.DeleteView):
     model = Project
+    template_name = "task_hub/project_confirm_delete.html"
     success_url = reverse_lazy("task_hub:project-list")
+
+
+class ProjectAddTasksView(LoginRequiredMixin, generic.ListView):
+    def get(self, request, pk):
+        project = get_object_or_404(Project, pk=pk)
+
+        tasks = Task.objects.filter(project__isnull=True)
+
+        return render(
+            request,
+            "project_add_tasks.html",
+            {
+                "project": project,
+                "tasks": tasks,
+            }
+        )
+
+    def post(self, request, pk):
+        project = get_object_or_404(Project, pk=pk)
+        task_ids = request.POST.getlist("tasks")
+
+        Task.objects.filter(id__in=task_ids).update(project=project)
+
+        return redirect("task_hub:project-detail", pk=project.pk)

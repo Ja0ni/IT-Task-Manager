@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+
+{% block title %}
+  <title>{{ project.name }} | Task Hub</title>
+{% endblock %}
+
+{% block content %}
+<div class="card shadow-sm">
+
+  <div class="card-body">
+
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <h2 class="card-title mb-0">{{ project.name }}</h2>
+
+      <span class="badge badge-info">
+        👥 {{ project.team.name }}
+      </span>
+    </div>
+
+    <p class="card-text text-muted">
+      {{ project.description|default:"No description provided." }}
+    </p>
+
+    <hr>
+
+    <ul class="list-unstyled">
+      <li>
+        <strong>Team:</strong>
+        <a href="{% url 'task_hub:team-detail' project.team.pk %}"
+           class="badge badge-secondary ml-1">
+          {{ project.team.name }}
+        </a>
+      </li>
+
+      <li class="mt-2">
+        <strong>Start date:</strong>
+        {{ project.start_date|date:"d M Y H:i" }}
+      </li>
+
+      {% if project.end_date %}
+        <li class="mt-2">
+          <strong>End date:</strong>
+          {{ project.end_date|date:"d M Y H:i" }}
+        </li>
+      {% endif %}
+    </ul>
+
+    <hr>
+
+    <div>
+      <strong>Tasks:</strong>
+      <div class="mt-2">
+        {% for task in project.tasks.all %}
+          <a href="{% url 'task_hub:task-detail' task.pk %}"
+             class="badge badge-light mr-1">
+            {{ task.name }}
+          </a>
+        {% empty %}
+          <em>No tasks</em>
+        {% endfor %}
+      </div>
+    </div>
+
+    <hr>
+
+    <div class="mt-4 d-flex justify-content-between">
+      <a href="{% url 'task_hub:project-list' %}"
+         class="btn btn-outline-secondary">
+        ← Back to list
+      </a>
+
+      <div class="d-flex align-items-center">
+        <a href="{% url 'task_hub:project-add-tasks' project.pk %}"
+          class="btn btn-primary mr-2">
+          ➕ Add tasks
+        </a>
+
+        <a href="{% url 'task_hub:project-update' project.pk %}"
+           class="btn btn-warning mr-2">
+          ✏️ Edit
+        </a>
+
+        <a href="{% url 'task_hub:project-delete' project.pk %}"
+           class="btn btn-danger">
+           🗑 Delete
+        </a>
+      </div>
+    </div>
+
+  </div>
+</div>
+{% endblock %}

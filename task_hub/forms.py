@@ -42,17 +42,14 @@ class TaskCreateForm(forms.ModelForm):
             "task_type": forms.Select(attrs={"class": "form-select"}),
             "project": forms.Select(attrs={"class": "form-select"}),
             "is_complete": forms.CheckboxInput(attrs={"class": "form-check-input"}),
-            "assignees": forms.CheckboxSelectMultiple(),
+            "assignees": forms.CheckboxSelectMultiple(attrs={"class": "form-check-input"}),
         }
 
 
 class TeamCreateForm(forms.ModelForm):
     class Meta(UserCreationForm.Meta):
         model = Team
-        fields = ("name", "members")
-        widgets = {
-            "members": forms.CheckboxSelectMultiple(),
-        }
+        fields = ("name",)
 
 
 class ProjectCreateForm(forms.ModelForm):
@@ -65,3 +62,18 @@ class ProjectCreateForm(forms.ModelForm):
             "start_date",
             "end_date",
         )
+        widgets = {
+            "description": forms.Textarea(attrs={"rows": 4}),
+            "start_date": forms.DateTimeInput(
+                attrs={
+                    "type": "datetime-local",
+                    "class": "form-control",
+                }
+            ),
+            "end_date": forms.DateTimeInput(
+                attrs={
+                    "type": "datetime-local",
+                    "class": "form-control",
+                }
+            ),
+        }

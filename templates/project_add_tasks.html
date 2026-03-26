@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+
+  <h2>Add tasks to project: {{ project.name }}</h2>
+
+  <form method="post">
+    {% csrf_token %}
+
+    {% if tasks %}
+      <div class="list-group mb-3">
+        {% for task in tasks %}
+          <label class="list-group-item">
+            <input
+              class="form-check-input me-1"
+              type="checkbox"
+              name="tasks"
+              value="{{ task.pk }}"
+            >
+            {{ task.name }}
+          </label>
+        {% endfor %}
+      </div>
+    {% else %}
+      <p class="text-muted">No available tasks.</p>
+    {% endif %}
+
+    <div class="d-flex justify-content-between">
+      <a href="{% url 'task_hub:project-detail' project.pk %}"
+         class="btn btn-outline-secondary">
+        Cancel
+      </a>
+
+      <button type="submit" class="btn btn-primary">
+        Save
+      </button>
+    </div>
+
+  </form>
+</div>
+{% endblock %}

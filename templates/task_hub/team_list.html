@@ -25,12 +25,12 @@
             </h5>
 
             <span class="badge badge-secondary">
-              👥 {{ team.members.count }} member{{ team.members.count|pluralize }}
+              👤 {{ team.members.count }} member{{ team.members.count|pluralize }}
             </span>
           </div>
 
           <p class="mb-1 text-muted">
-            Members:
+            👤 Members:
             {% for member in team.members.all %}
               <span class="badge badge-light">{{ member.username }}</span>
             {% empty %}

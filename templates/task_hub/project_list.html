@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block title %}
+  <title>Projects | Task Hub</title>
+{% endblock %}
+
+{% block content %}
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h1 class="h3 mb-0">Project List</h1>
+    <a href="{% url 'task_hub:project-create' %}" class="btn btn-primary">
+      ➕ Add new Project
+    </a>
+  </div>
+
+  {% if project_list %}
+    <div class="list-group shadow-sm">
+
+      {% for project in project_list %}
+        <a href="{% url 'task_hub:project-detail' project.pk %}"
+           class="list-group-item list-group-item-action mb-2 rounded text-dark text-decoration-none">
+
+          <div class="d-flex justify-content-between align-items-center">
+            <h5 class="mb-1">
+              {{ project.name }}
+            </h5>
+
+            <span class="badge badge-info">
+              👥 {{ project.team.name }}
+            </span>
+          </div>
+
+          <p class="mb-1 text-muted">
+            {{ project.description|default:"No description" }}
+          </p>
+
+          <small class="text-muted">
+            📅 Start: {{ project.start_date|date:"d M Y" }}
+            {% if project.end_date %}
+              | 🏁 End: {{ project.end_date|date:"d M Y" }}
+            {% endif %}
+          </small>
+
+        </a>
+      {% endfor %}
+
+    </div>
+  {% else %}
+    <p class="text-muted">No projects found.</p>
+  {% endif %}
+{% endblock %}

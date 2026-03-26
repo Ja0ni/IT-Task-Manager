@@ -5,8 +5,20 @@ from task_manager import settings
 
 
 class Worker(AbstractUser):
-    position = models.ForeignKey("Position", on_delete=models.CASCADE, null=True, blank=True, related_name="workers")
-
+    position = models.ForeignKey(
+        "Position",
+        on_delete=models.CASCADE,
+        null=True,
+        blank=True,
+        related_name="workers"
+    )
+    team = models.ForeignKey(
+        "Team",
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="workers"
+    )
     class Meta:
         ordering = ["username"]
 
@@ -67,11 +79,6 @@ class Position(models.Model):
 
 class Team(models.Model):
     name = models.CharField(max_length=63, unique=True)
-    members = models.ManyToManyField(
-        Worker,
-        related_name="teams",
-        blank=True,
-    )
 
     class Meta:
         ordering = ["name"]
