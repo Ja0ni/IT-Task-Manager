@@ -4,9 +4,10 @@ from django.http import HttpRequest, HttpResponse
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse_lazy
 from django.views import generic
+from django.utils import timezone
 
-from task_hub.forms import WorkerCreateForm, TaskCreateForm, TeamCreateForm, ProjectCreateForm
-from task_hub.models import Worker, Task, TaskType, Team, Project
+from task_hub.forms import WorkerCreateForm, TaskCreateForm, TeamCreateForm, ProjectCreateForm, TaskSearchForm
+from task_hub.models import Worker, Task, Team, Project
 
 
 @login_required
@@ -70,6 +71,34 @@ class TaskListView(LoginRequiredMixin, generic.ListView):
     model = Task
     template_name = "task_hub/task_list.html"
     paginate_by = 5
+
+    def get_queryset(self):
+        queryset = Task.objects.all().prefetch_related("assignees")
+
+        form = TaskSearchForm(self.request.GET)
+
+        if form.is_valid():
+            name = form.cleaned_data.get("name")
+            if name:
+                queryset = queryset.filter(name__icontains=name)
+
+        if self.request.GET.get("my"):
+            queryset = queryset.filter(assignees=self.request.user)
+
+        now = timezone.now()
+        for task in queryset:
+            if task.deadline:
+                task.is_last_day = 0 <= (task.deadline - now).days <= 1
+            else:
+                task.is_last_day = False
+
+        return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["search_form"] = TaskSearchForm(self.request.GET)
+        return context
+
 
 class TaskDetailView(LoginRequiredMixin, generic.DetailView):
     model = Task
