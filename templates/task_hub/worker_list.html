@@ -12,6 +12,18 @@
     </a>
   </div>
 
+  <form method="get" class="mb-4">
+    <div class="input-group flex-grow-1">
+        <label for="task-search" class="visually-hidden"></label>
+        <input type="text" id="task-search" name="username"
+               value="{{ request.GET.username }}"
+               class="form-control" placeholder="Search workers...">
+        <button type="submit" class="btn btn-primary">
+          🔍 Search
+        </button>
+      </div>
+  </form>
+
   {% if worker_list %}
     <div class="list-group shadow-sm">
       {% for worker in worker_list %}

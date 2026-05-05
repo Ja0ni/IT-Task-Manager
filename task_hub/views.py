@@ -6,7 +6,8 @@ from django.urls import reverse_lazy
 from django.views import generic
 from django.utils import timezone
 
-from task_hub.forms import WorkerCreateForm, TaskCreateForm, TeamCreateForm, ProjectCreateForm, TaskSearchForm
+from task_hub.forms import WorkerCreateForm, TaskCreateForm, TeamCreateForm, ProjectCreateForm, TaskSearchForm, \
+    WorkerSearchForm
 from task_hub.models import Worker, Task, Team, Project
 
 
@@ -25,6 +26,17 @@ class WorkerListView(LoginRequiredMixin, generic.ListView):
     model = Worker
     template_name = "task_hub/worker_list.html"
     paginate_by = 5
+
+    def get_queryset(self):
+        queryset = Worker.objects.all()
+
+        form = WorkerSearchForm(self.request.GET)
+        if form.is_valid():
+            username = form.cleaned_data.get("username")
+            if username:
+                queryset = queryset.filter(username__icontains=username)
+
+        return queryset
 
 
 class WorkerDetailView(LoginRequiredMixin, generic.DetailView):
