@@ -101,3 +101,15 @@ class WorkerSearchForm(forms.Form):
             "placeholder": "Search workers...",
         })
     )
+
+
+class TeamSearchForm(forms.Form):
+    name = forms.CharField(
+        max_length=255,
+        required=False,
+        label="",
+        widget=forms.TextInput(attrs={
+            "class": "form-control",
+            "placeholder": "Search teams...",
+        })
+    )

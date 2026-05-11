@@ -7,7 +7,7 @@ from django.views import generic
 from django.utils import timezone
 
 from task_hub.forms import WorkerCreateForm, TaskCreateForm, TeamCreateForm, ProjectCreateForm, TaskSearchForm, \
-    WorkerSearchForm
+    WorkerSearchForm, TeamSearchForm
 from task_hub.models import Worker, Task, Team, Project
 
 
@@ -150,6 +150,23 @@ class TeamListView(LoginRequiredMixin, generic.ListView):
     model = Team
     template_name = "task_hub/team_list.html"
     paginate_by = 5
+
+    def get_queryset(self):
+        queryset = Team.objects.all()
+
+        form = TeamSearchForm(self.request.GET)
+
+        if form.is_valid():
+            name = form.cleaned_data.get("name")
+            if name:
+                queryset = queryset.filter(name__icontains=name)
+
+        return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["search_form"] = TeamSearchForm(self.request.GET)
+        return context
 
 
 class TeamDetailView(LoginRequiredMixin, generic.DetailView):
