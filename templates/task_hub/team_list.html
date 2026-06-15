@@ -43,7 +43,7 @@
 
           <p class="mb-1 text-muted">
             👤 Members:
-            {% for member in team.members.all %}
+            {% for member in team.workers.all %}
               <span class="badge badge-light">{{ member.username }}</span>
             {% empty %}
               <em>No members</em>

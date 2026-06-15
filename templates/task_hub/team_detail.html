@@ -13,7 +13,7 @@
       <h2 class="card-title mb-0">{{ team.name }}</h2>
 
       <span class="badge badge-secondary">
-        👥 {{ team.members.count }} member{{ team.members.count|pluralize }}
+        👥 {{ team.workers.count }} member{{ team.workers.count|pluralize }}
       </span>
     </div>
 
@@ -23,7 +23,7 @@
       <li>
         <strong>Members:</strong>
         <div class="mt-1">
-          {% for member in team.members.all %}
+          {% for member in team.workers.all %}
             <a href="{% url 'task_hub:worker-detail' member.pk %}"
                class="badge badge-light mr-1">
               {{ member.username }}

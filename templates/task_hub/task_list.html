@@ -77,6 +77,8 @@
             ⏰ Deadline: {{ task.deadline|date:"d M Y H:i" }}
             {% if task.is_last_day %}
               <span class="badge badge-danger ml-1">Last Day</span>
+            {% elif task.is_overdue and not task.is_complete %}
+              <span class="badge badge-danger ml-1">Overdue task</span>
             {% endif %}
           </small>
 

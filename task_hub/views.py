@@ -99,6 +99,7 @@ class TaskListView(LoginRequiredMixin, generic.ListView):
 
         now = timezone.now()
         for task in queryset:
+            task.is_overdue = task.deadline < now
             if task.deadline:
                 task.is_last_day = 0 <= (task.deadline - now).days <= 1
             else:
